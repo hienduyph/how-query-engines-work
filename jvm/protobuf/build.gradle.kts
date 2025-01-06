@@ -1,8 +1,10 @@
 description = "Ballista protocol buffer format"
+val arrowVersion : String by rootProject.extra
+val protobufVersion = "4.29.2"
 
 plugins {
     java
-    id("com.google.protobuf") version "0.8.11"
+    id("com.google.protobuf") version "0.9.4"
     id("idea")
 }
 
@@ -25,8 +27,7 @@ dependencies {
     implementation(project(":logical-plan"))
     implementation(project(":physical-plan"))
 
-    implementation("org.apache.arrow:arrow-memory:0.17.0")
-    implementation("org.apache.arrow:arrow-vector:0.17.0")
-    implementation("com.google.protobuf:protobuf-java:3.11.4")
-    testImplementation("junit:junit:4.13")
+    implementation("org.apache.arrow:arrow-memory:${arrowVersion}")
+    implementation("org.apache.arrow:arrow-vector:${arrowVersion}")
+    implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
 }

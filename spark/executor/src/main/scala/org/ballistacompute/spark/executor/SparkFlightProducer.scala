@@ -16,36 +16,12 @@ package io.andygrove.kquery.spark.executor
 
 import java.util
 import java.util.{ArrayList, List}
-
 import scala.collection.JavaConverters._
-import io.netty.buffer.ArrowBuf
-
 import scala.collection.JavaConverters._
-import org.apache.arrow.flight.{
-  Action,
-  ActionType,
-  Criteria,
-  FlightDescriptor,
-  FlightInfo,
-  FlightProducer,
-  FlightStream,
-  PutResult,
-  Result,
-  Ticket
-}
-import org.apache.arrow.memory.RootAllocator
+import org.apache.arrow.flight.{Action, ActionType, Criteria, FlightDescriptor, FlightInfo, FlightProducer, FlightStream, PutResult, Result, Ticket}
+import org.apache.arrow.memory.{ArrowBuf, RootAllocator}
 import org.apache.arrow.vector.ipc.message.{ArrowFieldNode, ArrowRecordBatch}
-import org.apache.arrow.vector.{
-  FieldVector,
-  Float4Vector,
-  Float8Vector,
-  IntVector,
-  TypeLayout,
-  VarBinaryVector,
-  VarCharVector,
-  VectorLoader,
-  VectorSchemaRoot
-}
+import org.apache.arrow.vector.{FieldVector, Float4Vector, Float8Vector, IntVector, TypeLayout, VarBinaryVector, VarCharVector, VectorLoader, VectorSchemaRoot}
 import org.apache.spark.sql.SparkSession
 import io.andygrove.kquery.protobuf
 
@@ -170,7 +146,7 @@ class SparkFlightProducer(spark: SparkSession) extends FlightProducer {
     for (vector <- root.getFieldVectors.asScala) {
       appendNodes(vector, nodes, buffers)
     }
-    new ArrowRecordBatch(root.getRowCount, nodes, buffers, true)
+    new ArrowRecordBatch(root.getRowCount, nodes, buffers)
   }
 
   private def appendNodes(

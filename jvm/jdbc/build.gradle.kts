@@ -1,4 +1,6 @@
 description = "Ballista JDBC Driver"
+val arrowVersion : String by rootProject.extra
+val flightGRPCVersion  : String by rootProject.extra
 
 plugins {
     java
@@ -6,10 +8,8 @@ plugins {
 
 dependencies {
 
-    implementation("org.apache.arrow:flight-core:0.17.0")
-    implementation("org.apache.arrow:flight-grpc:0.17.0")
-
-    testImplementation("junit:junit:4.13")
+    implementation("org.apache.arrow:flight-core:${arrowVersion}")
+    implementation("org.apache.arrow:flight-grpc:${flightGRPCVersion}")
 }
 
 tasks.test {

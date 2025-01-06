@@ -1,7 +1,8 @@
 description = "Ballista query execution"
+val arrowVersion : String by rootProject.extra
 
 plugins {
-    kotlin("plugin.serialization") version "1.3.61"
+    kotlin("plugin.serialization")
 }
 
 dependencies {
@@ -14,5 +15,5 @@ dependencies {
     implementation(project(":sql"))
     implementation(project(":fuzzer"))
 
-    implementation("org.apache.arrow:arrow-vector:0.17.0")
+    implementation("org.apache.arrow:arrow-vector:${arrowVersion}")
 }

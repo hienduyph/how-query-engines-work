@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClassName = "io.andygrove.kquery.spark.executor.SparkExecutor"
+    mainClass = "io.andygrove.kquery.spark.executor.SparkExecutor"
 }
 
 dependencies {

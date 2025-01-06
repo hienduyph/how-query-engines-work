@@ -1,19 +1,27 @@
 import java.time.Instant
+val kotlinVersion = "2.1.0"
 
 plugins {
     java
     `java-library`
-    kotlin("jvm") version "1.3.50" apply false
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
     `maven-publish`
 
     //TODO: this has to be uncommented when pushing a release to sonatype but commented out
     // for github actions to work ... would be nice to find a better solution for this
     //id("org.hibernate.build.maven-repo-auth") version "3.0.0"
 
-    id("org.jetbrains.dokka") version "0.10.1"
+    id("org.jetbrains.dokka") version "2.0.0"
     signing
-    id("com.diffplug.gradle.spotless") version "4.4.0"
+    id("com.diffplug.spotless") version "5.0.0"
 }
+
+val arrowVersion  by  extra {  "18.1.0" }
+val flightGRPCVersion by  extra {  "15.0.2" }
+val hadoopVersion by extra { "3.3.4" }
+val parquetVersion by extra { "1.15.0" }
+
 
 group = "io.andygrove.kquery"
 version = "0.4.0-SNAPSHOT"
@@ -22,7 +30,6 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
     }
 }
 
@@ -32,7 +39,7 @@ subprojects {
         plugin("maven-publish")
         plugin("signing")
         plugin("org.jetbrains.dokka")
-        plugin("com.diffplug.gradle.spotless")
+        plugin("com.diffplug.spotless")
     }
 
     spotless {
@@ -53,7 +60,7 @@ subprojects {
         implementation(gradleApi())
 
         // Align versions of all Kotlin components
-        implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+        implementation(platform("org.jetbrains.kotlin:kotlin-bom:${kotlinVersion}"))
 
         // Use the Kotlin JDK 8 standard library.
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -62,17 +69,11 @@ subprojects {
         testImplementation("org.jetbrains.kotlin:kotlin-test")
 
         // Use the Kotlin JUnit integration.
-        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-        testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
-        testImplementation("junit:junit:4.12")
+        testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+        testImplementation("junit:junit:4.13.2")
 
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0") // JVM dependency
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines:0.19.2")
-    }
-
-    tasks.dokka {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3") // JVM dependency
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     }
 
     tasks.jar {
@@ -83,6 +84,11 @@ subprojects {
                 "Build-Timestamp" to Instant.now()
             )
         }
+    }
+
+    tasks.withType<Test> {
+        // useJUnitPlatform()
+        // jvmArgs("--add-opens", "java.base/java.util=ALL-UNNAMED")
     }
 
     val sourcesJar = tasks.create<Jar>("sourcesJar") {

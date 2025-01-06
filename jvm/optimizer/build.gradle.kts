@@ -1,11 +1,12 @@
 description = "Ballista query optimizer"
+val arrowVersion : String by rootProject.extra
 
 dependencies {
     implementation(project(":datatypes"))
     implementation(project(":datasource"))
     implementation(project(":logical-plan"))
 
-    implementation("org.apache.arrow:arrow-memory:0.17.0")
-    implementation("org.apache.arrow:arrow-vector:0.17.0")
+    implementation("org.apache.arrow:arrow-memory:${arrowVersion}")
+    implementation("org.apache.arrow:arrow-vector:${arrowVersion}")
 
 }

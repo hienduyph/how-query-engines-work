@@ -1,5 +1,8 @@
 description = "Ballista client"
 
+val arrowVersion : String by rootProject.extra
+val flightGRPCVersion : String by rootProject.extra
+
 dependencies {
 
     implementation(project(":datatypes"))
@@ -7,8 +10,8 @@ dependencies {
     implementation(project(":logical-plan"))
     implementation(project(":protobuf"))
 
-    implementation("org.apache.arrow:flight-core:0.17.0")
-    implementation("org.apache.arrow:flight-grpc:0.17.0")
+    implementation("org.apache.arrow:flight-core:${arrowVersion}")
+    implementation("org.apache.arrow:flight-grpc:${flightGRPCVersion}")
 
 }
 

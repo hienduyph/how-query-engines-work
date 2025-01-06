@@ -1,7 +1,8 @@
 description = "Ballista query planner"
+val arrowVersion : String by rootProject.extra
 
 plugins {
-    kotlin("plugin.serialization") version "1.3.61"
+    kotlin("plugin.serialization")
 }
 
 dependencies {
@@ -12,6 +13,6 @@ dependencies {
     implementation(project(":physical-plan"))
     implementation(project(":optimizer"))
 
-    implementation("org.apache.arrow:arrow-memory:0.17.0")
-    implementation("org.apache.arrow:arrow-vector:0.17.0")
+    implementation("org.apache.arrow:arrow-memory:${arrowVersion}")
+    implementation("org.apache.arrow:arrow-vector:${arrowVersion}")
 }
